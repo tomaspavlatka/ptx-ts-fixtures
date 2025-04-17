@@ -1,10 +1,10 @@
-import { Post, Prisma } from "generated/prisma";
 import { PostNotFoundException } from "../exceptions/post-not-found.exception";
 import { PrismaService } from "@common/services/prisma.service";
 import { ContextAwareException } from "@common/exceptions/context-aware.exception";
 import { Either } from "@common/either";
 import { Injectable } from "@nestjs/common";
 import { AbstractRepository } from "@common/repositories/abstract.repository";
+import { Post, Prisma } from "@prisma/client";
 
 @Injectable()
 export class PostRepository extends AbstractRepository {

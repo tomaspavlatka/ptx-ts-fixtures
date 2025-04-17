@@ -1,4 +1,4 @@
-import { Prisma } from 'generated/prisma';
+import { Prisma } from '@prisma/client';
 import { ContextAwareException } from './context-aware.exception';
 
 export class DatabaseException extends ContextAwareException {

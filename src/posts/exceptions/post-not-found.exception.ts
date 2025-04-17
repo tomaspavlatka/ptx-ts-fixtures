@@ -1,4 +1,4 @@
-import { ContextAwareException } from "src/common/exceptions/context-aware.exception";
+import { ContextAwareException } from "@common/exceptions/context-aware.exception";
 
 export class PostNotFoundException extends ContextAwareException {
   static create(lookedBy: string) {

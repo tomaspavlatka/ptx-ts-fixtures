@@ -4,7 +4,7 @@ import { ContextAwareException } from "@common/exceptions/context-aware.exceptio
 import { DateService } from "@common/services/date.service";
 import { IdService } from "@common/services/id.service";
 import { Injectable } from "@nestjs/common";
-import { Prisma } from "generated/prisma";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class PostMapper {

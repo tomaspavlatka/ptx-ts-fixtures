@@ -1,5 +1,5 @@
+import { Post } from "@prisma/client";
 import { plainToInstance } from "class-transformer";
-import { Post } from "generated/prisma";
 
 export class PostResponse {
   readonly id: string;
