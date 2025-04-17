@@ -3,6 +3,9 @@ sample/**/package-lock.json
 
 # dependencies
 node_modules/
+generated/prisma/
+prisma/dev.db
+prisma/dev.db-journal
 
 # IDE
 /.idea
