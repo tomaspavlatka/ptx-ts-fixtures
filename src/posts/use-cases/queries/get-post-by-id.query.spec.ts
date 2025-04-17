@@ -55,13 +55,7 @@ describe('posts.get-post-by-id.query', () => {
     const postId = 'dummy';
     const response = await query.execute(postId);
 
-    const expectedResponse = PostResponse.create({
-      id: 'id',
-      title: 'title',
-      content: 'content',
-      createdAt: date,
-      updatedAt: date
-    });
+    const expectedResponse = PostResponse.fromPost(post);
 
     expect(response.isRight()).toBeTruthy();
     expect(response.getRight()).toStrictEqual(expectedResponse);
@@ -72,14 +66,7 @@ describe('posts.get-post-by-id.query', () => {
     repository.getById.mockResolvedValue(Either.right(post));
     const response = await query.execute(post.id);
 
-    const expectedResponse = PostResponse.create({
-      id: post.id,
-      title: post.title,
-      content: post.content,
-      createdAt: post.createdAt,
-      updatedAt: post.updatedAt
-    });
-
+    const expectedResponse = PostResponse.fromPost(post)
     expect(response.isRight()).toBeTruthy();
     expect(response.getRight()).toStrictEqual(expectedResponse);
   });

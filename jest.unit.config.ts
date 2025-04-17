@@ -1,7 +1,7 @@
 export default {
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '.',
-  roots: ['src'],
+  roots: ['src', 'test'],
   testRegex: '.*\\.spec\\.ts$',
   transform: {
     '^.+\\.(t|j)s$': [
@@ -15,7 +15,7 @@ export default {
     '^@app/(.*)$': ['<rootDir>/src/application/$1'],
     '^@common/(.*)$': ['<rootDir>/src/common/$1'],
     '^@posts/(.*)$': ['<rootDir>/src/posts/$1'],
-    '^@tests/(.*)$': ['<rootDir>/tests/$1']
+    '^@tests/(.*)$': ['<rootDir>/test/$1']
   },
   collectCoverageFrom: ['src/**/*.(t|j)s'],
   testEnvironment: 'node',
