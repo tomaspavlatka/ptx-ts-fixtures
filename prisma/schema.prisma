@@ -12,7 +12,7 @@ datasource db {
 }
 
 model Post {
-  id        Int     @id @default(autoincrement())
+  id        String   @id 
   title     String
   content   String
   createdAt DateTime @map("created_at")
