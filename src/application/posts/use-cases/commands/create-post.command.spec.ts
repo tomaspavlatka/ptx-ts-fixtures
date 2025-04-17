@@ -7,6 +7,10 @@ import { Either } from "@common/either";
 import { PostResponseFixture } from "@app/posts/contracts/post.response.fixture";
 import { CreatePostRequest } from "@app/posts/contracts/create-post.request";
 import { faker } from "@faker-js/faker/.";
+import { PostResponse } from "@app/posts/contracts/post.response";
+import { PostFixture } from "@posts/dtos/post.fixture";
+import { IdService } from "@common/services/id.service";
+import { Fixture } from "@common/dtos/fixture";
 
 describe('appplication.create-post.command', () => {
   let postCommand = {
@@ -29,7 +33,7 @@ describe('appplication.create-post.command', () => {
     command = module.get<CreatePostCommand>(CreatePostCommand);
   });
 
-  // STEP 1
+  // STEP 2
   it('propagates either.left when this retrieved from the post.command', async () => {
     const request: CreatePostRequest = {
       title: faker.lorem.words(),
@@ -43,20 +47,28 @@ describe('appplication.create-post.command', () => {
 
     expect(response).toStrictEqual(postResponse);
   });
-  
-  // STEP 1
+
+  // STEP 2
   it('propagates either.right when this retrieved from the post.command', async () => {
     const request: CreatePostRequest = {
       title: faker.lorem.words(),
       content: faker.lorem.sentences()
     }
 
-    const postResponse = Either.right(PostResponseFixture.create());
-    postCommand.execute.mockResolvedValue(postResponse);
+    const postResponse = PostResponse.create({
+      id: IdService.getId('p'),
+      title: faker.lorem.words({ min: 3, max: 5 }),
+      content: faker.lorem.sentences(),
+      createdAt: Fixture.createdAt(),
+      updatedAt: Fixture.updatedAt()
+    });
+
+    const commandResponse = Either.right(postResponse);
+    postCommand.execute.mockResolvedValue(commandResponse);
 
     const response = await command.execute(request)
 
-    expect(response).toStrictEqual(postResponse);
+    expect(response).toStrictEqual(commandResponse);
   });
 
 

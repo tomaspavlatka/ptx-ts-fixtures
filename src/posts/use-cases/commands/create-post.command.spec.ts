@@ -11,6 +11,9 @@ import { CreatePostRequest } from "@app/posts/contracts/create-post.request";
 import { IdServiceDummy } from "@tests/services/id.service.dummy";
 import { DateServiceDummy } from "@tests/services/date.service.dummy";
 import { PostResponse } from "@app/posts/contracts/post.response";
+import { Post } from "@prisma/client";
+import { IdService } from "@common/services/id.service";
+import { Fixture } from "@common/dtos/fixture";
 
 describe('posts.create-post.command', () => {
   let repository = {
@@ -42,7 +45,7 @@ describe('posts.create-post.command', () => {
     command = module.get<CreatePostCommand>(CreatePostCommand);
   });
 
-  // STEP 2
+  // STEP 1
   it('propagates either.left when this retrieved from the post.command, old', async () => {
     const request: CreatePostRequest = {
       title: faker.lorem.words(),
@@ -57,14 +60,21 @@ describe('posts.create-post.command', () => {
     expect(response).toStrictEqual(repositoryResponse);
   });
 
-  // STEP 2
+  // STEP 1
   it('responds with post.response when post created in database', async () => {
     const request: CreatePostRequest = {
       title: faker.lorem.words(),
       content: faker.lorem.sentences()
     }
 
-    const post = PostFixture.create();
+    const post: Post = {
+      id: IdService.getId('p'),
+      title: faker.lorem.words({ min: 3, max: 5 }),
+      content: faker.lorem.sentences(),
+      createdAt: Fixture.createdAt(),
+      updatedAt: Fixture.updatedAt(),
+    }
+
     const repositoryResponse = Either.right(post);
     repository.create.mockResolvedValue(repositoryResponse);
 
