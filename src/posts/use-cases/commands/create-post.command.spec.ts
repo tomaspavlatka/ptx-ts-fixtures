@@ -42,6 +42,38 @@ describe('posts.create-post.command', () => {
     command = module.get<CreatePostCommand>(CreatePostCommand);
   });
 
+  // STEP 2
+  it('propagates either.left when this retrieved from the post.command, old', async () => {
+    const request: CreatePostRequest = {
+      title: faker.lorem.words(),
+      content: faker.lorem.sentences()
+    }
+
+    const repositoryResponse = Either.left(NotImplementedException.create());
+    repository.create.mockResolvedValue(repositoryResponse);
+
+    const response = await command.execute(request)
+
+    expect(response).toStrictEqual(repositoryResponse);
+  });
+
+  // STEP 2
+  it('responds with post.response when post created in database', async () => {
+    const request: CreatePostRequest = {
+      title: faker.lorem.words(),
+      content: faker.lorem.sentences()
+    }
+
+    const post = PostFixture.create();
+    const repositoryResponse = Either.right(post);
+    repository.create.mockResolvedValue(repositoryResponse);
+
+    const response = await command.execute(request)
+
+    const expectedResponse = PostResponse.fromPost(post);
+    expect(response.isRight()).toBeTruthy();
+    expect(response.getRight()).toStrictEqual(expectedResponse);
+  });
 
   it('propagates either.left when this retrieved from the respository', async () => {
     const request = CreatePostRequestFixture.create();
@@ -64,19 +96,5 @@ describe('posts.create-post.command', () => {
     const expectedResponse = PostResponse.fromPost(post);
     expect(response.isRight()).toBeTruthy();
     expect(response.getRight()).toStrictEqual(expectedResponse);
-  });
-
-  it('propagates either.left when this retrieved from the post.command, old', async () => {
-    const request: CreatePostRequest = {
-      title: faker.lorem.words(),
-      content: faker.lorem.sentences()
-    }
-
-    const postResponse = Either.left(NotImplementedException.create());
-    repository.create.mockResolvedValue(postResponse);
-
-    const response = await command.execute(request)
-
-    expect(response).toStrictEqual(postResponse);
   });
 });

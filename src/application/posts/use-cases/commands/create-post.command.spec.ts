@@ -29,6 +29,36 @@ describe('appplication.create-post.command', () => {
     command = module.get<CreatePostCommand>(CreatePostCommand);
   });
 
+  // STEP 1
+  it('propagates either.left when this retrieved from the post.command', async () => {
+    const request: CreatePostRequest = {
+      title: faker.lorem.words(),
+      content: faker.lorem.sentences()
+    }
+
+    const postResponse = Either.left(NotImplementedException.create());
+    postCommand.execute.mockResolvedValue(postResponse);
+
+    const response = await command.execute(request)
+
+    expect(response).toStrictEqual(postResponse);
+  });
+  
+  // STEP 1
+  it('propagates either.right when this retrieved from the post.command', async () => {
+    const request: CreatePostRequest = {
+      title: faker.lorem.words(),
+      content: faker.lorem.sentences()
+    }
+
+    const postResponse = Either.right(PostResponseFixture.create());
+    postCommand.execute.mockResolvedValue(postResponse);
+
+    const response = await command.execute(request)
+
+    expect(response).toStrictEqual(postResponse);
+  });
+
 
   it('propagates either.left when this retrieved from the post.command', async () => {
     const request = CreatePostRequestFixture.create();
@@ -50,17 +80,4 @@ describe('appplication.create-post.command', () => {
     expect(response).toStrictEqual(postResponse);
   });
 
-  it('propagates either.left when this retrieved from the post.command, old', async () => {
-    const request: CreatePostRequest = {
-      title: faker.lorem.words(),
-      content: faker.lorem.sentences()
-    }
-
-    const postResponse = Either.left(NotImplementedException.create());
-    postCommand.execute.mockResolvedValue(postResponse);
-
-    const response = await command.execute(request)
-
-    expect(response).toStrictEqual(postResponse);
-  });
 });
